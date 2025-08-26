@@ -227,14 +227,21 @@ export default function ChatLayout({ user, token, profilePhoto }) {
                                 />
                                 <Upload
                                     beforeUpload={(f) => {
+                                        const isImage = f.type.startsWith("image/");
+                                        if (!isImage) {
+                                            message.error("You can only upload image files!");
+                                            return Upload.LIST_IGNORE;
+                                        }
                                         setFile(f);
                                         return false;
                                     }}
                                     showUploadList={false}
                                     disabled={sendingFile}
+                                    accept="image/*"
                                 >
                                     <Button icon={<UploadOutlined />} style={{ height: 48 }} disabled={sendingFile} />
                                 </Upload>
+
                                 {file && !sendingFile && (
                                     <span style={{
                                         maxWidth: 120,
